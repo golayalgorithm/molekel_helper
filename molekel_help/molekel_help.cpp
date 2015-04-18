@@ -43,40 +43,45 @@ int main(int argc, char** argv) {
 
 	string input;
 	if (inputFile.is_open()) {
-		int tempInt;
-		string tempString;
-		double tempDouble;
-		string::size_type sz;
-		while (!inputFile.eof()) {
-
-			inputFile >> tempString;
-			int size = stoi(tempString,&sz);//tempInt; // should be 77
-			inputFile >> tempString;
-			inputFile >> tempString;
-			inputFile >> tempString;
-			vector<atom> molecule(size);
-			cout << "scanning atoms" << endl;
-			for (int i=0; i<size; i++) {
-				atom a;
-				inputFile >> a.name;
-				inputFile >> tempString; a.x = stod(tempString,&sz);
-				inputFile >> tempString; a.y = stod(tempString,&sz);
-				inputFile >> tempString; a.z = stod(tempString,&sz);
-				molecule[i] = a;
-				cout << a.name << endl;
+		int size;
+		string header;
+		string name;
+		double x;
+		double y;
+		double z;
+		for (int i=0; i<8; i++) {
+			inputFile >> size;
+			inputFile >> header;
+			inputFile >> header;
+			inputFile >> header;
+			cout << size << endl;
+			for (int j=0; j<size; j++) {
+				inputFile >> name;
+				inputFile >> x;
+				inputFile >> y;
+				inputFile >> z;
+				cout << name << " ";
+				cout << 5*x << "," << 5*y << "," << 5*z << endl;
 			}
-			cout << "add molecule" << endl;
-			molecules.push_back(molecule);
-			cout << "size: " << molecules.size() << endl;
 		}
+		string::size_type sz;
+		/*
+		while (!inputFile.eof()) {
+			string line;
+			getline(inputFile,line); // reading the size
+			getline(inputFile,line); // reading the header
+			getline(inputFile,line); //
+			stringstream lineInput(line);
+		}
+		*/
 		cout << "ok" << endl;
 	}
 	inputFile.close();
-	atom a = molecules[0][0];
-	cout << "name: " << a.name << endl;
-	cout << "x: " << a.x << endl;
-	cout << "y: " << a.y << endl;
-	cout << "z: " << a.z << endl;
+	//atom a = molecules[0][0];
+	//cout << "name: " << a.name << endl;
+	//cout << "x: " << a.x << endl;
+	//cout << "y: " << a.y << endl;
+	//cout << "z: " << a.z << endl;
 
 
 	return 0;
