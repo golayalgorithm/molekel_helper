@@ -7,8 +7,12 @@
 //============================================================================
 
 #include <fstream>
+#include <iomanip>
 #include <iostream>
+#include <string>
+#include <sstream>
 #include <vector>
+
 using namespace std;
 
 
@@ -23,7 +27,7 @@ struct frame {
 	vector<atom> molecule;
 };
 
-
+string atomOutput(atom a);
 
 /**
  * syntax: ./molekel_help <input file> <output file>
@@ -44,45 +48,59 @@ int main(int argc, char** argv) {
 	string input;
 	if (inputFile.is_open()) {
 		int size;
-		string header;
-		string name;
-		double x;
-		double y;
-		double z;
-		for (int i=0; i<8; i++) {
-			inputFile >> size;
-			inputFile >> header;
-			inputFile >> header;
-			inputFile >> header;
-			cout << size << endl;
-			for (int j=0; j<size; j++) {
-				inputFile >> name;
-				inputFile >> x;
-				inputFile >> y;
-				inputFile >> z;
-				cout << name << " ";
-				cout << 5*x << "," << 5*y << "," << 5*z << endl;
-			}
-		}
-		string::size_type sz;
-		/*
+        string line;
+        
+        stringstream lineInput;
 		while (!inputFile.eof()) {
-			string line;
-			getline(inputFile,line); // reading the size
-			getline(inputFile,line); // reading the header
-			getline(inputFile,line); //
-			stringstream lineInput(line);
+            getline(inputFile,line); // get size
+            lineInput.str(line);
+            lineInput >> size;
+            getline(inputFile,line); // header. skipped
+            
+            vector<atom> molecule(77);
+            for (int i=0; i<size; i++) {
+                getline(inputFile,line); // atom data
+                lineInput.str(line);
+                atom a;
+                lineInput >> a.name;
+                lineInput >> a.x;
+                lineInput >> a.y;
+                lineInput >> a.z;
+                cout << atomOutput(a) << endl;
+                molecule[i] = a;
+            }
+            molecules.push_back(molecule);
 		}
-		*/
-		cout << "ok" << endl;
 	}
 	inputFile.close();
-	//atom a = molecules[0][0];
-	//cout << "name: " << a.name << endl;
-	//cout << "x: " << a.x << endl;
-	//cout << "y: " << a.y << endl;
-	//cout << "z: " << a.z << endl;
-
+    
+    // recall data
 
 	return 0;
+}
+
+
+string atomOutput(atom a) {
+    stringstream output;
+    
+    if (a.name.size() == 1)
+        output << " ";
+    output << a.name;
+    
+    if (a.x >= 0)
+        output << " ";
+    output << "     ";
+    output << a.x;
+    
+    if (a.y >= 0)
+        output << " ";
+    output << "     ";
+    output << a.y;
+    
+    if (a.z >= 0)
+        output << " ";
+    output << "     ";
+    output << a.z;
+    
+    return output.str();
 }
