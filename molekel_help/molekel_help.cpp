@@ -6,6 +6,7 @@
 // Description : Hello World in C, Ansi-style
 //============================================================================
 
+#include <cmath>
 #include <fstream>
 #include <iomanip>
 #include <iostream>
@@ -91,19 +92,19 @@ string atomOutput(atom a) {
     if (a.x >= 0)
         output << " ";
     output << "     ";
-    output << fixed << setprecision(5);
+    output << fixed << setprecision(5-(abs(a.x) < 1 ? 0 : log10(abs(a.x))-1));
     output << a.x;
     
     if (a.y >= 0)
         output << " ";
     output << "     ";
-    output << fixed << setprecision(5);
+    output << fixed << setprecision(5-(abs(a.y) < 1 ? 0 : log10(abs(a.y))-1));
     output << a.y;
     
     if (a.z >= 0)
         output << " ";
     output << "     ";
-    output << fixed << setprecision(5);
+    output << fixed << setprecision(5-(abs(a.z) < 1 ? 0 : log10(abs(a.z))-1));
     output << a.z;
     
     return output.str();
