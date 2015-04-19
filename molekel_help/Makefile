@@ -1,6 +1,6 @@
 CXXFLAGS =	-std=c++0x -O2 -g -Wall -fmessage-length=0
 
-OBJS =		molekel_help.o
+OBJS =		atom.o molekel_help.o
 
 LIBS =
 

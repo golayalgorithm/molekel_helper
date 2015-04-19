@@ -6,34 +6,32 @@
 // Description : Hello World in C, Ansi-style
 //============================================================================
 
-#include <cmath>
 #include <fstream>
-#include <iomanip>
 #include <iostream>
 #include <string>
 #include <sstream>
 #include <vector>
 
+#include "atom.h"
+
 using namespace std;
 
-
-struct atom {
-	string name;
-	double x;
-	double y;
-	double z;
-};
-
-struct frame {
-	vector<atom> molecule;
-};
-
-string atomOutput(atom a);
-
 /**
- * syntax: ./molekel_help <input file> <output file>
+ * syntax: ./molekel_help <input file> <multiplying number>
  */
 int main(int argc, char** argv) {
+
+	// check if the syntax is good
+	if (argc != 3) {
+		cout << "syntax: " << argv[0] << " <input file> <multiplying number>" << endl;
+		return 0;
+	}
+
+	stringstream tempInput(argv[2]);
+
+	int multiplyer;
+	tempInput >> multiplyer;
+
 	// get file name
 	char* inputFileName = argv[1];
 
@@ -67,9 +65,9 @@ int main(int argc, char** argv) {
                 stringstream atomInput(line);
                 atom a;
                 atomInput >> a.name >> a.x >> a.y >> a.z;
-                a.x *=5;
-                a.y *=5;
-                a.z *=5;
+                a.x *=multiplyer;
+                a.y *=multiplyer;
+                a.z *=multiplyer;
                 cout << atomOutput(a) << endl;
             }
             //molecules.push_back(molecule);
@@ -82,30 +80,3 @@ int main(int argc, char** argv) {
 }
 
 
-string atomOutput(atom a) {
-    stringstream output;
-    
-    if (a.name.size() == 1)
-        output << " ";
-    output << a.name;
-    
-    if (a.x >= 0)
-        output << " ";
-    output << "     ";
-    output << fixed << setprecision(5-(abs(a.x) < 1 ? 0 : log10(abs(a.x))-1));
-    output << a.x;
-    
-    if (a.y >= 0)
-        output << " ";
-    output << "     ";
-    output << fixed << setprecision(5-(abs(a.y) < 1 ? 0 : log10(abs(a.y))-1));
-    output << a.y;
-    
-    if (a.z >= 0)
-        output << " ";
-    output << "     ";
-    output << fixed << setprecision(5-(abs(a.z) < 1 ? 0 : log10(abs(a.z))-1));
-    output << a.z;
-    
-    return output.str();
-}
