@@ -33,7 +33,6 @@ string atomOutput(atom a);
  * syntax: ./molekel_help <input file> <output file>
  */
 int main(int argc, char** argv) {
-
 	// get file name
 	char* inputFileName = argv[1];
 
@@ -52,30 +51,32 @@ int main(int argc, char** argv) {
         
         stringstream lineInput;
 		while (!inputFile.eof()) {
+			size = 0;
             getline(inputFile,line); // get size
             lineInput.str(line);
             lineInput >> size;
+            if (size > 0)
+            	cout << size << endl;
             getline(inputFile,line); // header. skipped
-            
-            vector<atom> molecule(77);
+            if (size > 0)
+            	cout << line << endl;
+            vector<atom> molecule(size);
             for (int i=0; i<size; i++) {
                 getline(inputFile,line); // atom data
-                lineInput.str(line);
+                stringstream atomInput(line);
                 atom a;
-                lineInput >> a.name;
-                lineInput >> a.x;
-                lineInput >> a.y;
-                lineInput >> a.z;
+                atomInput >> a.name >> a.x >> a.y >> a.z;
+                a.x *=5;
+                a.y *=5;
+                a.z *=5;
                 cout << atomOutput(a) << endl;
-                molecule[i] = a;
             }
-            molecules.push_back(molecule);
+            //molecules.push_back(molecule);
 		}
 	}
 	inputFile.close();
     
     // recall data
-
 	return 0;
 }
 
@@ -90,16 +91,19 @@ string atomOutput(atom a) {
     if (a.x >= 0)
         output << " ";
     output << "     ";
+    output << fixed << setprecision(5);
     output << a.x;
     
     if (a.y >= 0)
         output << " ";
     output << "     ";
+    output << fixed << setprecision(5);
     output << a.y;
     
     if (a.z >= 0)
         output << " ";
     output << "     ";
+    output << fixed << setprecision(5);
     output << a.z;
     
     return output.str();
