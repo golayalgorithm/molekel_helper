@@ -1,6 +1,11 @@
 # molekel_helper
 
-here's how to use it:
+## how to build
+<code>
+make
+</code>
+
+## here how to use
 <code>
 ./molekel_helper.exe \<input file\> \<amplification value\>
 </code>
